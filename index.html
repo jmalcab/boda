@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Boda | Jhon & Gabriela</title>
+    
+    <!-- Fuentes: Oooh Baby (Títulos Elegantes y tiernos) y Dekko (Textos generales) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dekko&family=Oooh+Baby&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        :root {
+            --dorado-principal: #D4AF37;
+            --dorado-oscuro: #AA7C11;
+            --carbon: #1A1A1A;
+            --marfil: #FCFBF8;
+            --blanco: #FFFFFF;
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+            height: 100dvh;
+        }
+
+        /* FUENTE DEKKO PARA TODO EL TEXTO GENERAL */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Dekko', cursive, sans-serif;
+            background-color: var(--marfil);
+            color: var(--carbon);
+            scroll-behavior: smooth;
+        }
+
+        /* FUENTE OOOH BABY PARA TODOS LOS TÍTULOS */
+        h1, h2, h3, .titulo-seccion, .nombres, .nombres-sobre, .lightbox-caption {
+            font-family: 'Oooh Baby', cursive;
+            font-weight: 400;
+        }
+
+        /* --- SOBRE INICIAL --- */
+        .sobre-pantalla {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100dvh;
+            background-color: rgba(26, 26, 26, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1.2s ease, transform 1.2s ease, visibility 1.2s;
+        }
+        
+        .sobre-pantalla.abierto {
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.05) translateY(-100%);
+        }
+
+        .sobre-contenido {
+            background-color: var(--marfil);
+            padding: 60px 30px 50px 30px;
+            max-width: 420px;
+            width: 85%;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .sobre-contenido::before {
+            content: '';
+            position: absolute;
+            top: 12px; left: 12px; right: 12px; bottom: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            pointer-events: none;
+        }
+
+        .sello-cera {
+            width: 85px; height: 85px;
+            background: radial-gradient(circle, var(--dorado-principal) 30%, var(--dorado-oscuro) 100%);
+            color: var(--marfil);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-family: 'Oooh Baby', cursive;
+            font-size: 2.8rem;
+            margin: -100px auto 25px auto; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4), inset 0 2px 6px rgba(255,255,255,0.4);
+            border: 3px solid var(--marfil);
+            position: relative;
+        }
+
+        .sello-cera::after {
+            content: '';
+            position: absolute;
+            width: 73px; height: 73px;
+            border: 1px dashed rgba(255,255,255,0.6);
+            border-radius: 50%;
+        }
+
+        .texto-presenta {
+            font-size: 1.1rem;
+            color: #777;
+            letter-spacing: 2px;
+            margin-bottom: 25px; 
+            margin-top: 20px;
+        }
+
+        .nombres-sobre {
+            font-size: 4.5rem;
+            color: var(--carbon);
+            margin: 0 0 15px 0;
+            line-height: 1;
+        }
+
+        .mensaje-sobre {
+            font-size: 1.1rem;
+            color: var(--dorado-oscuro);
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+            padding: 0 10px;
+        }
+
+        .btn-abrir {
+            background-color: var(--dorado-principal);
+            color: var(--blanco);
+            border: none;
+            padding: 12px 30px;
+            font-family: 'Dekko', cursive;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-abrir:hover {
+            background-color: var(--carbon);
+            color: var(--dorado-principal);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        /* --- PORTADA PRINCIPAL --- */
+        .portada {
+            background-image: linear-gradient(to bottom, rgba(26, 26, 26, 0.75) 0%, rgba(26, 26, 26, 0) 45%, rgba(26, 26, 26, 0) 65%, rgba(26, 26, 26, 0.85) 100%), url('portada.jpeg');
+            background-size: cover;
+            background-position: center center;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            padding: 12vh 20px 8vh 20px;
+            box-sizing: border-box;
+        }
+
+        .portada-top {
+            width: 100%;
+        }
+
+        .portada-bottom {
+            width: 100%;
+            padding-bottom: 20px;
+        }
+
+        .nombres {
+            font-size: 6rem;
+            margin: 0;
+            color: var(--dorado-principal);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            line-height: 1;
+        }
+
+        .fecha {
+            font-size: 1.3rem;
+            letter-spacing: 4px;
+            margin-top: 10px;
+            color: var(--blanco);
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
+        }
+
+        .versiculo-portada {
+            color: var(--blanco);
+            font-size: 1.4rem;
+            margin: 0 auto;
+            max-width: 600px;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+            line-height: 1.5;
+            letter-spacing: 1px;
+        }
+
+        /* --- BOTÓN DE MÚSICA --- */
+        .btn-musica {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--dorado-principal);
+            color: var(--blanco);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-musica:hover {
+            transform: scale(1.1);
+            background-color: var(--dorado-oscuro);
+        }
+
+        /* --- SECCIONES GENERALES --- */
+        .seccion-padding {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .fondo-marfil { background-color: var(--marfil); }
+        .fondo-blanco { background-color: var(--blanco); }
+
+        .titulo-seccion {
+            font-size: 3.8rem;
+            color: var(--carbon);
+            margin-bottom: 20px;
+        }
+
+        .separador-dorado {
+            width: 80px;
+            height: 2px;
+            background-color: var(--dorado-principal);
+            margin: 0 auto 40px auto;
+        }
+
+        /* --- FAMILIAS --- */
+        .versiculo-familias {
+            font-size: 1.5rem;
+            color: var(--dorado-oscuro);
+            max-width: 700px;
+            margin: 0 auto 50px auto;
+            line-height: 1.6;
+        }
+
+        .padres-contenedor {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .columna-padres h3 {
+            font-size: 2.5rem;
+            color: var(--dorado-oscuro);
+            margin-bottom: 10px;
+        }
+
+        .columna-padres p {
+            font-size: 1.3rem;
+            margin: 5px 0;
+            color: var(--carbon);
+        }
+
+        .madrina-seccion {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px dashed rgba(212, 175, 55, 0.5);
+            max-width: 400px;
+            margin: 40px auto 0 auto;
+        }
+
+        /* --- CUENTA REGRESIVA --- */
+        .tiempo-contenedor {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tiempo-caja {
+            background-color: var(--marfil);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 4px;
+            padding: 20px;
+            min-width: 80px;
+        }
+
+        .tiempo-caja span {
+            display: block;
+            font-size: 2.8rem;
+            color: var(--dorado-principal);
+        }
+
+        .tiempo-caja p {
+            margin: 5px 0 0 0;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* --- GALERÍA --- */
+        .galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .foto-container {
+            overflow: hidden;
+            border-radius: 4px;
+            cursor: pointer;
+            aspect-ratio: 1 / 1;
+            border: 2px solid transparent;
+            transition: border 0.3s ease;
+        }
+
+        .foto-container:hover {
+            border: 2px solid var(--dorado-principal);
+        }
+
+        .foto {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .foto-container:hover .foto {
+            transform: scale(1.05);
+        }
+
+        /* --- DETALLES IMPORTANTES --- */
+        .detalles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .detalle-card {
+            background-color: var(--blanco);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 40px 25px;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        .detalle-card .icono {
+            font-size: 2.5rem;
+            color: var(--dorado-principal);
+            margin-bottom: 15px;
+        }
+
+        .detalle-card h3 {
+            font-size: 2.8rem;
+            color: var(--carbon);
+            margin-bottom: 15px;
+        }
+
+        .detalle-card p {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .detalle-card strong {
+            color: var(--dorado-oscuro);
+        }
+
+        /* --- ITINERARIO --- */
+        .tarjeta-itinerario {
+            background-color: var(--marfil);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 4px;
+            padding: 50px 30px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .tarjeta-itinerario .icono {
+            font-size: 3rem;
+            color: var(--dorado-principal);
+            margin-bottom: 15px;
+        }
+
+        .tarjeta-itinerario h3 {
+            font-size: 3rem;
+            margin: 0 0 15px 0;
+        }
+
+        .tarjeta-itinerario p {
+            margin: 8px 0;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .btn-mapa {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 30px;
+            background-color: transparent;
+            color: var(--carbon);
+            text-decoration: none;
+            border: 1px solid var(--dorado-principal);
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-mapa:hover {
+            background-color: var(--dorado-principal);
+            color: var(--blanco);
+        }
+
+        /* --- RSVP --- */
+        .rsvp-seccion {
+            background-color: var(--carbon);
+            color: var(--blanco);
+        }
+        
+        .rsvp-seccion .titulo-seccion {
+            color: var(--dorado-principal);
+        }
+
+        .rsvp-greeting {
+            font-size: 2.5rem;
+            color: var(--marfil);
+            margin-bottom: 10px;
+        }
+
+        .rsvp-formulario {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .grupo-input {
+            text-align: left;
+        }
+
+        .grupo-input label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: var(--dorado-principal);
+        }
+
+        .grupo-input input, .grupo-input select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: transparent;
+            color: var(--blanco);
+            font-family: 'Dekko', cursive;
+            font-size: 1.1rem;
+            box-sizing: border-box;
+        }
+
+        .grupo-input input option, .grupo-input select option {
+            background-color: var(--carbon);
+            color: var(--blanco);
+        }
+
+        .btn-confirmar {
+            margin-top: 10px;
+            padding: 15px;
+            background-color: var(--dorado-principal);
+            color: var(--blanco);
+            border: none;
+            font-family: 'Dekko', cursive;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-confirmar:hover {
+            background-color: var(--dorado-oscuro);
+        }
+
+        /* --- LIGHTBOX (CARRUSEL DE FOTOS) --- */
+        .lightbox {
+            display: none; 
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(26, 26, 26, 0.98);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 70vh;
+            border: 2px solid var(--dorado-principal);
+            animation: fadeIn 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        
+        .lightbox-caption {
+            color: var(--dorado-principal);
+            margin-top: 25px;
+            /* Tamaño de texto reducido para que luzca más delicado */
+            font-size: 2rem; 
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+            padding: 0 20px;
+        }
+
+        .lb-btn {
+            position: absolute;
+            background: transparent;
+            color: var(--dorado-principal);
+            border: 1px solid var(--dorado-principal);
+            border-radius: 50%;
+            width: 50px; height: 50px;
+            font-size: 1.5rem;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lb-btn:hover {
+            background: var(--dorado-principal);
+            color: var(--carbon);
+        }
+
+        .lb-close { top: 20px; right: 30px; border: none; font-size: 2.5rem; }
+        .lb-prev { left: 20px; top: 50%; transform: translateY(-50%); }
+        .lb-next { right: 20px; top: 50%; transform: translateY(-50%); }
+
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: scale(0.95); } 
+            to { opacity: 1; transform: scale(1); } 
+        }
+        
+        @media (max-width: 768px) {
+            .nombres { font-size: 4.5rem; }
+            .fecha { font-size: 1.1rem; }
+            .versiculo-portada { font-size: 1.2rem; padding: 0 10px; }
+            .portada { padding: 10vh 15px 5vh 15px; }
+            
+            .padres-contenedor { gap: 30px; }
+            .nombres-sobre { font-size: 4rem; }
+            /* Texto de las fotos aún más sutil en celular */
+            .lightbox-caption { font-size: 1.5rem; } 
+            .titulo-seccion { font-size: 3.2rem; }
+            .columna-padres h3 { font-size: 2.2rem; }
+            .detalle-card h3 { font-size: 2.2rem; }
+            .tarjeta-itinerario h3 { font-size: 2.4rem; }
+        }
+    </style>
+</head>
+<body class="no-scroll"> 
+
+    <audio id="musica-fondo" loop>
+        <source src="cancion.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- SOBRE INICIAL MEJORADO -->
+    <div id="sobre-pantalla" class="sobre-pantalla">
+        <div class="sobre-contenido">
+            <div class="sello-cera">J&G</div>
+            <p class="texto-presenta">ESTÁS INVITADO A LA BODA DE</p>
+            <h2 class="nombres-sobre">Jhon & Gabriela</h2>
+            <div id="bienvenida-sobre" class="mensaje-sobre">TIENES UNA INVITACIÓN</div>
+            <button class="btn-abrir" onclick="abrirSobre()">ABRIR INVITACIÓN</button>
+        </div>
+    </div>
+
+    <!-- Botón flotante para música -->
+    <button class="btn-musica" onclick="toggleMusica()" id="btn-musica-flotante">
+        <span class="material-icons" id="icono-musica">music_off</span>
+    </button>
+
+    <!-- Sección 1: Portada -->
+    <header class="portada">
+        <div class="portada-top">
+            <h1 class="nombres">Jhon & Gabriela</h1>
+            <p class="fecha">24 de Octubre de 2026</p>
+        </div>
+        
+        <div class="portada-bottom">
+            <p class="versiculo-portada">"Sobre todo, vístanse de amor, que es el vínculo perfecto."<br>— Colosenses 3:14</p>
+        </div>
+    </header>
+
+    <!-- Sección 2: Familias, Padres y Madrina -->
+    <section class="seccion-padding fondo-marfil">
+        <h2 class="titulo-seccion">Nuestras Familias</h2>
+        <div class="separador-dorado"></div>
+        
+        <p class="versiculo-familias">"Mejores son dos que uno... porque si cayeren, el uno levantará a su compañero." <br>— Eclesiastés 4:9-10</p>
+
+        <div class="padres-contenedor">
+            <div class="columna-padres">
+                <h3>Padres del Novio</h3>
+                <p>Jimmy Malca Becerra</p>
+                <p>Milagros Del Rocío Baldera Moran</p>
+            </div>
+            
+            <div class="columna-padres">
+                <h3>Padres de la Novia</h3>
+                <p>Remigio Tena Yacolca (†)</p>
+                <p>Isabel Cordova Polo</p>
+            </div>
+        </div>
+
+        <div class="columna-padres madrina-seccion">
+            <h3>Madrina de Bodas</h3>
+            <p>Liliana Córdova Mejia</p>
+        </div>
+    </section>
+
+    <!-- Sección 3: Cuenta Regresiva -->
+    <section class="seccion-padding fondo-blanco">
+        <h2 class="titulo-seccion">Ya falta poco...</h2>
+        <div class="separador-dorado"></div>
+        <div class="tiempo-contenedor">
+            <div class="tiempo-caja"><span id="dias">00</span><p>DÍAS</p></div>
+            <div class="tiempo-caja"><span id="horas">00</span><p>HRS</p></div>
+            <div class="tiempo-caja"><span id="minutos">00</span><p>MIN</p></div>
+            <div class="tiempo-caja"><span id="segundos">00</span><p>SEG</p></div>
+        </div>
+    </section>
+
+    <!-- Sección 4: Nosotros (Fotos) -->
+    <section class="seccion-padding fondo-marfil">
+        <h2 class="titulo-seccion">Nuestro Amor</h2>
+        <div class="separador-dorado"></div>
+        <div class="galeria" id="galeria-fotos"></div>
+    </section>
+
+    <!-- Modal Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lb-btn lb-close" onclick="cerrarLightbox()">&times;</button>
+        <button class="lb-btn lb-prev" onclick="cambiarFoto(-1)">&#10094;</button>
+        <img src="" alt="Foto ampliada" class="lightbox-img" id="lightbox-img">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+        <button class="lb-btn lb-next" onclick="cambiarFoto(1)">&#10095;</button>
+    </div>
+
+    <!-- Sección 5: Dónde y Cuándo -->
+    <section class="seccion-padding fondo-blanco">
+        <div class="tarjeta-itinerario">
+            <span class="material-icons icono">church</span>
+            <h3>Ceremonia & Recepción</h3>
+            <div class="separador-dorado" style="width: 40px; margin-bottom: 20px;"></div>
+            <p style="font-size: 1.4rem; color: var(--dorado-principal);">5:00 p.m.</p>
+            <p><strong>Jr. La Punta 275</strong><br>Sol de La Molina, La Molina</p>
+            
+            <div style="margin-top: 25px; padding-top: 25px; border-top: 1px dashed rgba(212, 175, 55, 0.3);">
+                <p><strong>⏳ Duración:</strong> Hasta la 1:00 AM <br><span style="font-size: 1rem; color: #666;">(Por disposiciones municipales)</span></p>
+                <p><strong>🚗 Estacionamiento:</strong> Parqueo externo disponible.</p>
+            </div>
+
+            <a href="https://www.google.com/maps/place/Jr.+la+Punta+275,+La+Molina+15026/@-12.0871552,-76.9017487,18z/data=!4m6!3m5!1s0x9105c0dc7cb41585:0xef0446a5578e4a97!8m2!3d-12.0874321!4d-76.9002164!16s%2Fg%2F11h_44ny1w?entry=ttu&g_ep=EgoyMDI2MDYyMS4wIKXMDSoASAFQAw%3D%3D" class="btn-mapa" target="_blank">VER UBICACIÓN EN EL MAPA</a>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: Detalles (Dress code, Niños, Regalos) -->
+    <section class="seccion-padding fondo-marfil">
+        <h2 class="titulo-seccion">Detalles Importantes</h2>
+        <div class="separador-dorado"></div>
+        
+        <div class="detalles-grid">
+            <!-- Dress Code -->
+            <div class="detalle-card">
+                <span class="material-icons icono">checkroom</span>
+                <h3>Código de Vestimenta</h3>
+                <p><strong>Formal / Elegante</strong></p>
+                <p><strong>Hombres:</strong> Terno oscuro.</p>
+                <p><strong>Mujeres:</strong> Vestido largo.</p>
+                <p style="font-size: 1.1rem; color: #666; margin-top: 15px;">
+                    Rogamos respetar el código: Nos reservamos los tonos blanco, perla, rosa y similares para la novia. Por favor, evitar también el color rojo.
+                </p>
+            </div>
+
+            <!-- Solo Adultos -->
+            <div class="detalle-card">
+                <span class="material-icons icono">no_stroller</span>
+                <h3>Recepción Solo Adultos</h3>
+                <p>Amamos a sus pequeños, pero hemos decidido que nuestra boda sea un evento exclusivo para adultos. Queremos que disfruten, se relajen y celebren con nosotros sin preocupaciones.</p>
+            </div>
+
+            <!-- Lluvia de Sobres -->
+            <div class="detalle-card">
+                <span class="material-icons icono">mail_outline</span>
+                <h3>Lluvia de Sobres</h3>
+                <p>El mejor regalo que nos pueden dar es su grata compañía. Si desean tener un detalle adicional para nuestra nueva etapa, contaremos con un buzón para lluvia de sobres en la recepción. <br><br><span style="font-size: 1.1rem; color: #666;">(No contaremos con mesa de regalos físicos)</span>.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección 6: RSVP -->
+    <section class="seccion-padding rsvp-seccion">
+        <h2 class="titulo-seccion">Confirmación</h2>
+        <div class="separador-dorado"></div>
+        <div id="saludo-personalizado" class="rsvp-greeting"></div>
+        <p style="letter-spacing: 1px; font-size: 1.1rem; margin-bottom: 30px;">CONFÍRMANOS TU PRESENCIA ANTES DEL 24 DE SEPTIEMBRE</p>
+        
+        <form class="rsvp-formulario" id="formulario-boda" onsubmit="enviarAExcel(event)">
+            <div class="grupo-input">
+                <label for="nombre">NOMBRE Y APELLIDO</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
+            </div>
+            
+            <div class="grupo-input">
+                <label for="asistencia">¿ASISTIRÁS?</label>
+                <select id="asistencia" name="asistencia" required>
+                    <option value="" disabled selected>Selecciona una opción...</option>
+                    <option value="si">¡Sí, ahí estaremos!</option>
+                    <option value="no">Lamentablemente no podremos</option>
+                </select>
+            </div>
+
+            <div class="grupo-input">
+                <label for="personas">NÚMERO DE PERSONAS</label>
+                <select id="personas" name="personas" required></select>
+            </div>
+
+            <button type="submit" class="btn-confirmar">CONFIRMAR ASISTENCIA</button>
+        </form>
+    </section>
+
+    <script>
+        function abrirSobre() {
+            document.getElementById('sobre-pantalla').classList.add('abierto');
+            document.body.classList.remove('no-scroll'); 
+            
+            const musica = document.getElementById('musica-fondo');
+            const icono = document.getElementById('icono-musica');
+            
+            if (musica.paused) {
+                musica.play();
+                icono.innerText = 'music_note';
+            }
+        }
+
+        function toggleMusica() {
+            const musica = document.getElementById('musica-fondo');
+            const icono = document.getElementById('icono-musica');
+            
+            if (musica.paused) {
+                musica.play();
+                icono.innerText = 'music_note';
+            } else {
+                musica.pause();
+                icono.innerText = 'music_off';
+            }
+        }
+
+        const fechaBoda = new Date("Oct 24, 2026 17:00:00").getTime();
+        const actualizador = setInterval(function() {
+            const ahora = new Date().getTime();
+            const distancia = fechaBoda - ahora;
+
+            document.getElementById("dias").innerText = Math.floor(distancia / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById("horas").innerText = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById("minutos").innerText = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById("segundos").innerText = Math.floor((distancia % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        }, 1000);
+
+        const listaFotos = Array.from({length: 12}, (_, i) => `foto${i+1}.jpeg`);
+        
+        const textosFotos = {
+            'foto1.jpeg': 'El día que nuestras almas dijeron ¡Sí! 💍✨',
+            'foto2.jpeg': 'Nuestras primeras salidas, donde comenzó la magia ☕💫',
+            'foto3.jpeg': 'La promesa de un para siempre juntos 💍💖',
+            'foto4.jpeg': 'Nuestro primer viaje, el inicio de mil aventuras ✈️🌍',
+            'foto5.jpeg': 'Una escapada para bailar al ritmo de nuestro amor 💃🕺',
+            'foto6.jpeg': 'Donde aprendimos, crecimos y nos enamoramos 🎓📚',
+            'foto7.jpeg': '¡Reafirmando nuestro amor una vez más! ✨🥂',
+            'foto8.jpeg': 'La emoción antes de volar hacia nuevos recuerdos 🧳✈️',
+            'foto9.jpeg': 'El lugar que nos vio unir nuestros caminos 🏛️❤️',
+            'foto10.jpeg': 'Bailando juntos como si no hubiera un mañana 🎶✨',
+            'foto11.jpeg': 'Tardes de películas, abrazos y nuestro propio mundo 🍿🎬',
+            'foto12.jpeg': 'Nuestra primera semana escribiendo nuestro felices por siempre 🏡💍'
+        };
+
+        for (let i = listaFotos.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [listaFotos[i], listaFotos[j]] = [listaFotos[j], listaFotos[i]];
+        }
+
+        const galeria = document.getElementById('galeria-fotos');
+        let fotoActualIndex = 0;
+
+        listaFotos.forEach((src, index) => {
+            const div = document.createElement('div');
+            div.className = 'foto-container';
+            div.onclick = () => abrirLightbox(index);
+            const img = document.createElement('img');
+            img.src = src;
+            img.className = 'foto';
+            div.appendChild(img);
+            galeria.appendChild(div);
+        });
+
+        const lightbox = document.getElementById('lightbox'), lightboxImg = document.getElementById('lightbox-img'), lightboxCaption = document.getElementById('lightbox-caption');
+
+        function abrirLightbox(index) {
+            fotoActualIndex = index;
+            lightboxImg.src = listaFotos[fotoActualIndex];
+            lightboxCaption.innerText = textosFotos[listaFotos[fotoActualIndex]] || 'Un hermoso recuerdo ❤️';
+            lightbox.style.display = 'flex';
+        }
+
+        function cerrarLightbox() { lightbox.style.display = 'none'; }
+
+        function cambiarFoto(direccion) {
+            fotoActualIndex = (fotoActualIndex + direccion + listaFotos.length) % listaFotos.length;
+            lightboxImg.src = listaFotos[fotoActualIndex];
+            lightboxCaption.innerText = textosFotos[listaFotos[fotoActualIndex]] || 'Un hermoso recuerdo ❤️';
+        }
+
+        const parametrosURL = new URLSearchParams(window.location.search);
+        const nombreInvitado = parametrosURL.get('invitado'); 
+        const numeroPases = parametrosURL.get('pases') || 4;
+
+        if (nombreInvitado) {
+            document.getElementById('saludo-personalizado').innerText = `¡${nombreInvitado}!`;
+            
+            const bienvenidaSobre = document.getElementById('bienvenida-sobre');
+            if(bienvenidaSobre) {
+                bienvenidaSobre.innerText = `¡HOLA ${nombreInvitado.toUpperCase()}! TIENES UNA INVITACIÓN`;
+            }
+
+            const campoNombre = document.getElementById('nombre');
+            campoNombre.value = nombreInvitado;
+            campoNombre.readOnly = true;
+            campoNombre.style.color = '#888';
+        }
+
+        const selectorPersonas = document.getElementById('personas');
+        for (let i = 1; i <= numeroPases; i++) {
+            const opcion = document.createElement('option');
+            opcion.value = i;
+            opcion.innerText = i;
+            selectorPersonas.appendChild(opcion);
+        }
+
+        function enviarAExcel(event) {
+            event.preventDefault();
+            
+            // RECUERDA COLOCAR TU URL DE GOOGLE APPS SCRIPT AQUÍ
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxzTZP2d4thTUqtFDfm2qGE9kJhE3ico7-YOFLT6CaL7wODByUIqHszuJ8GlXA3C1ii/exec'; 
+            const form = document.getElementById('formulario-boda');
+            const boton = form.querySelector('button[type="submit"]');
+            
+            const textoOriginal = boton.innerText;
+            boton.innerText = 'ENVIANDO...';
+            boton.disabled = true;
+            
+            const formData = new FormData(form);
+
+            fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors'})
+                .then(response => {
+                    form.innerHTML = `
+                        <div style="text-align: center; padding: 20px 0;">
+                            <span class="material-icons" style="font-size: 4rem; color: var(--dorado-principal); margin-bottom: 15px;">check_circle</span>
+                            <h3 style="color: var(--dorado-principal); font-family: 'Oooh Baby', cursive; font-size: 2.5rem; margin: 0;">¡Gracias por confirmar!</h3>
+                        </div>
+                    `;
+                })
+                .catch(error => {
+                    alert('Hubo un error al enviar. Por favor, inténtalo de nuevo.');
+                    boton.innerText = textoOriginal;
+                    boton.disabled = false;
+                });
+        }
+    </script>
+</body>
+</html>
