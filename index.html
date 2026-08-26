@@ -25,6 +25,7 @@
             height: 100dvh;
         }
 
+        /* FUENTE DEKKO PARA TODO EL TEXTO GENERAL */
         body, html {
             margin: 0;
             padding: 0;
@@ -34,6 +35,7 @@
             scroll-behavior: smooth;
         }
 
+        /* FUENTE OOOH BABY PARA TODOS LOS TÍTULOS */
         h1, h2, h3, .titulo-seccion, .nombres, .nombres-sobre, .lightbox-caption {
             font-family: 'Oooh Baby', cursive;
             font-weight: 400;
@@ -155,7 +157,7 @@
             justify-content: space-between;
             align-items: center;
             text-align: center;
-            padding: 6vh 20px 8vh 20px; /* Reducido para pantallas de PC también */
+            padding: 6vh 20px 8vh 20px;
             box-sizing: border-box;
         }
 
@@ -561,7 +563,6 @@
             .fecha { font-size: 1.1rem; }
             .versiculo-portada { font-size: 1.2rem; padding: 0 10px; }
             
-            /* AQUÍ ESTÁ EL AJUSTE PARA MOVER EL TEXTO MÁS ARRIBA EN EL CELULAR */
             .portada { padding: 3vh 15px 5vh 15px; }
             
             .padres-contenedor { gap: 30px; }
@@ -604,7 +605,7 @@
         </div>
         
         <div class="portada-bottom">
-            <p class="versiculo-portada">"Sobre todo, vístanse de amor, que es el vínculo perfecto."<br>— Colosenses 3:14</p>
+            <p class="versiculo-portada">"Nos amamos porque Él nos amó primero."<br>— 1 Juan 4:19</p>
         </div>
     </header>
 
@@ -866,7 +867,7 @@
         function enviarAExcel(event) {
             event.preventDefault();
             
-            // RECUERDA COLOCAR TU URL DE GOOGLE APPS SCRIPT AQUÍ
+            // EL LINK OFICIAL DE TU GOOGLE SCRIPT
             const scriptURL = 'https://script.google.com/macros/s/AKfycbxzTZP2d4thTUqtFDfm2qGE9kJhE3ico7-YOFLT6CaL7wODByUIqHszuJ8GlXA3C1ii/exec'; 
             const form = document.getElementById('formulario-boda');
             const boton = form.querySelector('button[type="submit"]');
